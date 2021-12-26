@@ -34,6 +34,19 @@ BATTERYLIB_TUBE_BATTERY_PARAMETERS =
     ],
 
     [
+        "AAAA",
+        [
+            ["type", "tube"],
+            ["diameter", 8.30], // Official value from Wikipedia (https://en.wikipedia.org/wiki/AAAA_battery)
+            ["height", 40.00],
+            ["cathode diameter", 4.91],
+            ["cathode height", 0.50],
+            ["anode diameter", 3.37],
+            ["anode height", 1.77],
+        ],
+    ],
+
+    [
         "AAA",
         [
             ["type", "tube"],
