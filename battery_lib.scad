@@ -193,7 +193,7 @@ function BatteryLib_Envelope(battery_name) =
 
 
 
-// Retrieve the parameters specific to a specified battery
+// Retrieve the parameters for a specified battery
 function _BatteryLib_RetrieveParameter(battery_name, key) =
 	_BatteryLib_ReturnIfBatteryNameIsValid(battery_name, TableToolsLib_Lookup(key, TableToolsLib_Lookup(battery_name, BATTERYLIB_BATTERY_PARAMETERS)));
 
