@@ -33,6 +33,20 @@ BATTERYLIB_TUBE_BATTERY_PARAMETERS =
         ],
     ],
 
+    // Measurements provided by "rowdypants" on Thingiverse
+    [
+        "26650",
+        [
+            ["type", "tube"],
+            ["diameter", 26.50],
+            ["height", 66.00],
+            ["cathode diameter", 20.00],
+            ["cathode height", 1.00],
+            ["anode diameter", 13.00],
+            ["anode height", 2.00],
+        ],
+    ],
+
     [
         "AAAA",
         [

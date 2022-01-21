@@ -30,7 +30,7 @@ BATTERYLIB_RECTANGLE_BATTERY_PARAMETERS =
             ["type", "rectangle"],
             ["width", 26.50],
             ["length", 17.50],
-            ["height", 46.40],
+            ["height", 44.90],
             ["cathode diameter", 8.52],
             ["cathode height", 2.10],
             ["anode diameter", 5.75],
