@@ -10,6 +10,13 @@ Currently, batteries are organized in three separate "types":
 
 The dimensions of each battery can be retrieved and basic models can be generated using this library.
 
+To install this library, copy the entire folder into your OpenSCAD library directory (This can be found by selecting "Show Library Folder" from the "File" menu in OpenSCAD).
+
+To use the library, just add the following line to your source file(s):
+
+`include<battery_lib/battery_lib.scad>`
+
+
 
 # METHODS
 The library provides the following methods:
