@@ -11,8 +11,10 @@
 // Added support for many common button batteries and cleaned up the implementation
 //
 // 21 Feb 2022 - Brad Kartchner - V2.0.0
-// Standardized and removed a couple of function names
-// Removed the dependency on my ill-concieved TableToolsLib library
+// Made one breaking change by changing BatteryLib_Diameter() to BatteryLib_TotalDiameter.
+// Added other "BatteryLib_Total" functions.
+// Fixed some errors that had gone unnoticed.
+// Removed the dependency on my ill-concieved TableToolsLib library.
 
 BatteryLib_Version = "2.0.0";
 
