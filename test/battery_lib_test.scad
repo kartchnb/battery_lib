@@ -1,6 +1,6 @@
 /* [General Parameters] */
-// The name of the battery to generate
-Battery_Name = "AA";
+// The names of the battery to generate
+Battery_Names = ["AA", "9V", "CR2032"];
 
 // Display all supported battery names?
 Display_Battery_Names = false;
@@ -20,47 +20,51 @@ include<battery_lib/battery_lib.scad>
 
 
 
-module Generate()
+module Generate(index=0)
 {
+    battery_name = Battery_Names[index];
+    
     echo();
     echo();
     echo();
     echo("-----------------------------------------");
-    echo(str("Parameters for a '", Battery_Name, "' battery:"));
+    echo(str("Parameters for a '", battery_name, "' battery:"));
 
-    supported = BatteryLib_BatteryNameIsValid(Battery_Name);
+    supported = BatteryLib_BatteryNameIsValid(battery_name);
     echo(supported=supported);
     if (supported)
     {
-        echo(str("Battery Type: ", BatteryLib_Type(Battery_Name)));
-        echo(str("Body Diameter: ", BatteryLib_BodyDiameter(Battery_Name)));
-        echo(str("Total Diameter: ", BatteryLib_TotalDiameter(Battery_Name)));
-        echo(str("Body Width: ", BatteryLib_BodyWidth(Battery_Name)));
-        echo(str("Total Width: ", BatteryLib_TotalWidth(Battery_Name)));
-        echo(str("Body Length: ", BatteryLib_BodyLength(Battery_Name)));
-        echo(str("Total Length: ", BatteryLib_TotalLength(Battery_Name)));
-        echo(str("Body Height: ", BatteryLib_BodyHeight(Battery_Name)));
-        echo(str("Total Height: ", BatteryLib_TotalHeight(Battery_Name)));
-        echo(str("Cathode Diameter: ", BatteryLib_CathodeDiameter(Battery_Name)));
-        echo(str("Cathode Height: ", BatteryLib_CathodeHeight(Battery_Name)));
-        echo(str("Anode Diameter: ", BatteryLib_AnodeDiameter(Battery_Name)));
-        echo(str("Anode Height: ", BatteryLib_AnodeHeight(Battery_Name)));
-        echo(str("Terminal Distance: ", BatteryLib_TerminalDistance(Battery_Name)));
-        echo(str("Envelope: ", BatteryLib_Envelope(Battery_Name)));
+        echo(str("Battery Type: ", BatteryLib_Type(battery_name)));
+        echo(str("Body Diameter: ", BatteryLib_BodyDiameter(battery_name)));
+        echo(str("Total Diameter: ", BatteryLib_TotalDiameter(battery_name)));
+        echo(str("Body Width: ", BatteryLib_BodyWidth(battery_name)));
+        echo(str("Total Width: ", BatteryLib_TotalWidth(battery_name)));
+        echo(str("Body Length: ", BatteryLib_BodyLength(battery_name)));
+        echo(str("Total Length: ", BatteryLib_TotalLength(battery_name)));
+        echo(str("Body Height: ", BatteryLib_BodyHeight(battery_name)));
+        echo(str("Total Height: ", BatteryLib_TotalHeight(battery_name)));
+        echo(str("Cathode Diameter: ", BatteryLib_CathodeDiameter(battery_name)));
+        echo(str("Cathode Height: ", BatteryLib_CathodeHeight(battery_name)));
+        echo(str("Anode Diameter: ", BatteryLib_AnodeDiameter(battery_name)));
+        echo(str("Anode Height: ", BatteryLib_AnodeHeight(battery_name)));
+        echo(str("Terminal Distance: ", BatteryLib_TerminalDistance(battery_name)));
+        echo(str("Envelope: ", BatteryLib_Envelope(battery_name)));
 
-        BatteryLib_GenerateBatteryModel(Battery_Name);
+        x_offset = BatteryLib_TotalWidth(battery_name)/2;
+        translate([x_offset, 0, 0])
+            BatteryLib_GenerateBatteryModel(battery_name);
     }
     
     else
     {
-        echo(str ("'", Battery_Name, "; is not a supported battery name"));
+        echo(str ("'", battery_name, "; is not a supported battery name"));
     }
     
-    if (Display_Battery_Names)
+    if (index < len(Battery_Names) - 1)
     {
-        echo(str("All supported rectangular battery names: ", BatteryLib_Valid_Rectangle_Battery_Names));
-        echo(str("All supported tube battery names: ", BatteryLib_Valid_Tube_Battery_Names));
-        echo(str("All supported button battery names: ", BatteryLib_Valid_Button_Battery_Names));
+        x_offset = BatteryLib_TotalWidth(battery_name) + 10;
+        translate([x_offset, 0, 0])
+        Generate(index + 1);
     }
 }
 
@@ -74,3 +78,10 @@ $fn = $preview ? Preview_Quality_Value : Render_Quality_Value;
 
 // Generate the model
 Generate();
+    
+if (Display_Battery_Names)
+{
+    echo(str("All supported rectangular battery names: ", BatteryLib_Valid_Rectangle_Battery_Names));
+    echo(str("All supported tube battery names: ", BatteryLib_Valid_Tube_Battery_Names));
+    echo(str("All supported button battery names: ", BatteryLib_Valid_Button_Battery_Names));
+}

@@ -110,7 +110,7 @@ function BatteryLib_TotalDiameter(battery_name) =
 
 
 
-// Retrieve the width of a specified battetable [search([key], table) [0]] [1]ry
+// Retrieve the width of a specified battery
 function BatteryLib_BodyWidth(battery_name) =
     BatteryLib_Type(battery_name) == "tube" || BatteryLib_Type(battery_name) == "button" 
         ? _BatteryLib_RetrieveParameter(battery_name, "diameter")
