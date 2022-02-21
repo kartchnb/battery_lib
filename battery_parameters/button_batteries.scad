@@ -6,7 +6,7 @@
 
 
 
-BATTERYLIB_BUTTON_BATTERY_PARAMETERS =
+BatteryLib_Button_Battery_Parameters =
 [
 	[
         "171",
@@ -1330,7 +1330,7 @@ BATTERYLIB_BUTTON_BATTERY_PARAMETERS =
 
 
 
-BatteryLib_Valid_Button_Battery_Names = [ for (x = BATTERYLIB_BUTTON_BATTERY_PARAMETERS) x[0] ];
+BatteryLib_Valid_Button_Battery_Names = [ for (x = BatteryLib_Button_Battery_Parameters) x[0] ];
 
 
 

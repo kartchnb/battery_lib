@@ -22,7 +22,7 @@
 
 
 
-BATTERYLIB_RECTANGLE_BATTERY_PARAMETERS =
+BatteryLib_Rectangle_Battery_Parameters =
 [
     [
         "9V",
@@ -42,7 +42,7 @@ BATTERYLIB_RECTANGLE_BATTERY_PARAMETERS =
 
 
 
-BatteryLib_Valid_Rectangle_Battery_Names = [ for (x = BATTERYLIB_RECTANGLE_BATTERY_PARAMETERS) x[0] ];
+BatteryLib_Valid_Rectangle_Battery_Names = [ for (x = BatteryLib_Rectangle_Battery_Parameters) x[0] ];
 
 
 

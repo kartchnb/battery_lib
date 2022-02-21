@@ -16,8 +16,7 @@ BATTERYLIB_TYPE_TUBE = "tube";
 //  >||<- Cathode Diameter
 
 
-
-BATTERYLIB_TUBE_BATTERY_PARAMETERS =
+BatteryLib_Tube_Battery_Parameters = 
 [
     // Based on my own measurements
     [
@@ -157,7 +156,7 @@ BATTERYLIB_TUBE_BATTERY_PARAMETERS =
 
 
 
-BatteryLib_Valid_Tube_Battery_Names = [ for (x = BATTERYLIB_TUBE_BATTERY_PARAMETERS) x[0] ];
+BatteryLib_Valid_Tube_Battery_Names = [ for (x = BatteryLib_Tube_Battery_Parameters) x[0] ];
 
 
 

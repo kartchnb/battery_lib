@@ -7,10 +7,16 @@
 // 27 Mar 2021 - Brad Kartchner - v1.0
 //  Supports standard tube and rectangle batteries.
 //
-// 18 Apr 2021 - Brad Kartchner - v1.1
+// 18 Apr 2021 - Brad Kartchner - v1.0.1
 // Added support for many common button batteries and cleaned up the implementation
+//
+// 21 Feb 2022 - Brad Kartchner - V2.0.0
+// Standardized and removed a couple of function names
+// Removed the dependency on my ill-concieved TableToolsLib library
 
-include<tabletools_lib/tabletools_lib.scad>
+BatteryLib_Version = "2.0.0";
+
+
 
 // Include battery parameter files
 include<battery_parameters/button_batteries.scad>
@@ -23,15 +29,15 @@ include<battery_parameters/tube_batteries.scad>
 // articles for each battery, along with some actual measurements.  They're
 // accurate for the batteries I have, but may need some tweaking to account
 // for variations between manufacturers.
-BATTERYLIB_BATTERY_PARAMETERS =
+BatteryLib_Battery_Parameters =
 concat
 (
-    BATTERYLIB_TUBE_BATTERY_PARAMETERS,
-    BATTERYLIB_RECTANGLE_BATTERY_PARAMETERS,
-    BATTERYLIB_BUTTON_BATTERY_PARAMETERS
+    BatteryLib_Tube_Battery_Parameters,
+    BatteryLib_Rectangle_Battery_Parameters,
+    BatteryLib_Button_Battery_Parameters
 );
 
-BatteryLib_Valid_Battery_Names = [ for (x = BATTERYLIB_BATTERY_PARAMETERS) x[0] ];
+BatteryLib_Valid_Battery_Names = [ for (x = BatteryLib_Battery_Parameters) x[0] ];
 
 // This is a bit of a hack.  It would be nice if this was calculated 
 // automatically, but I'm not smart enough to figure that out
@@ -47,7 +53,11 @@ BatteryLib_Valid_Battery_Types =
 // Checks if a given battery name is recognized by the library
 // Returns true if it is, false otherwise
 function BatteryLib_BatteryNameIsValid(battery_name) =
-    TableToolsLib_Lookup(battery_name, BATTERYLIB_BATTERY_PARAMETERS) != undef;
+    let
+    (
+        battery_name_index = search([battery_name], BatteryLib_Battery_Parameters)[0]
+    )
+    battery_name_index != [];
 
 
 
@@ -72,7 +82,11 @@ module BatteryLib_GenerateBatteryModel(battery_name)
 
 // Retrieve the type of a specified battery
 function BatteryLib_Type(battery_name) =
-    _BatteryLib_ReturnIfBatteryNameIsValid(battery_name, TableToolsLib_Lookup("type", TableToolsLib_Lookup(battery_name, BATTERYLIB_BATTERY_PARAMETERS)));
+    let
+    (
+        battery_type = _BatteryLib_RetrieveParameter(battery_name, "type")
+    )
+    _BatteryLib_ReturnIfBatteryNameIsValid(battery_name, battery_type);
 
 
 
@@ -87,14 +101,14 @@ function BatteryLib_BodyDiameter(battery_name) =
 
 
 
-// Retrieve the diameter of a specified battery
-// This is just syntactic sugar for the previous function
-function BatteryLib_Diameter(battery_name) =
+// Retrieve the total diameter of a specified battery
+// Currently, this is simply a synonym of BatteryLib_BodyDiameter()
+function BatteryLib_TotalDiameter(battery_name) =
     BatteryLib_BodyDiameter(battery_name);
 
 
 
-// Retrieve the width of a specified battery
+// Retrieve the width of a specified battetable [search([key], table) [0]] [1]ry
 function BatteryLib_BodyWidth(battery_name) =
     BatteryLib_Type(battery_name) == "tube" || BatteryLib_Type(battery_name) == "button" 
         ? _BatteryLib_RetrieveParameter(battery_name, "diameter")
@@ -102,8 +116,8 @@ function BatteryLib_BodyWidth(battery_name) =
 
 
 
-// Retrieve the width of a specified battery
-// For now, this is just syntactic sugar for the previous function
+// Retrieve the total width of a specified battery
+// Currently, this is simply a synonym of BatteryLib_BodyWidth()
 function BatteryLib_TotalWidth(battery_name) =
     BatteryLib_BodyWidth(battery_name);
 
@@ -114,6 +128,13 @@ function BatteryLib_BodyLength(battery_name) =
     BatteryLib_Type(battery_name) == "tube" || BatteryLib_Type(battery_name) == "button"
         ? _BatteryLib_RetrieveParameter(battery_name, "diameter") 
         : _BatteryLib_RetrieveParameter(battery_name, "length");
+
+
+
+// Retrieve the total length of a specified battery
+// Currently, this is simply a synonym of BatteryLib_BodyLength()
+function BatteryLib_TotalLength(battery_name) = 
+    BatteryLib_BodyLength(battery_name);
 
 
 
@@ -174,14 +195,14 @@ function BatteryLib_AnodeHeight(battery_name) =
 function BatteryLib_TerminalDistance(battery_name) =
     BatteryLib_Type(battery_name) == "rectangle"
         ? _BatteryLib_RetrieveParameter(battery_name, "terminal distance")
-        : BatteryLib_Body_Height(battery_name);
+        : BatteryLib_BodyHeight(battery_name);
 
 
 
 // Retrieve the dimensions of the dimensions of a cube completely enveloping
 // a specified battery [x, y, z]
 function BatteryLib_Envelope(battery_name) =
-    [BatteryLib_Width(battery_name), BatteryLib_Length(battery_name), BatteryLib_Height(battery_name)];
+    [BatteryLib_TotalWidth(battery_name), BatteryLib_TotalLength(battery_name), BatteryLib_TotalHeight(battery_name)];
 
 
 
@@ -195,7 +216,14 @@ function BatteryLib_Envelope(battery_name) =
 
 // Retrieve the parameters for a specified battery
 function _BatteryLib_RetrieveParameter(battery_name, key) =
-	_BatteryLib_ReturnIfBatteryNameIsValid(battery_name, TableToolsLib_Lookup(key, TableToolsLib_Lookup(battery_name, BATTERYLIB_BATTERY_PARAMETERS)));
+    let
+    (
+        battery_specific_table_index = search([battery_name], BatteryLib_Battery_Parameters) [0],
+        battery_specific_table = BatteryLib_Battery_Parameters [battery_specific_table_index] [1],
+        parameter_index = search([key], battery_specific_table) [0],
+        parameter = battery_specific_table [parameter_index] [1]
+    )
+    _BatteryLib_ReturnIfBatteryNameIsValid(battery_name, parameter);
 
 
 

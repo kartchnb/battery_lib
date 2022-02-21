@@ -1,11 +1,6 @@
 Battery Library for OpenSCAD
 Created by Brad Kartchner (kartchnb@gmail.com)
 
-Version 2.0 - 14 Oct 2021
-   Completely rewritten for simplification and easier maintenance
-Version 1.0 - ???
-   Initial version
-
 This library is designed to make it easier to create designs incorporating 
 common batteries.
 
@@ -23,8 +18,8 @@ models of them.
 METHODS
 The library provides the following methods:
 
-BatteryLib_BatteryNameIsValid(battery_name)
-   Returns true if the battery name supplied is supported by the library.
+BatteryLib_GenerateBatteryModel(battery_name)
+   Generates a model of the specified battery.
 
 
 
@@ -32,8 +27,8 @@ BatteryLib_BatteryNameIsValid(battery_name)
 FUNCTIONS
 The library provides the following functions:
 
-BatteryLib_GenerateBatteryModel(battery_name)
-   Generates a model of the specified battery.
+BatteryLib_BatteryNameIsValid(battery_name)
+   Returns true if the battery name supplied is supported by the library.
 
 BatteryLib_Type(battery_name)
    Returns the "type" of the specified battery 
@@ -44,7 +39,7 @@ BatteryLib_BodyDiameter(battery_name)
    For tube and button batteries, this is simply the diameter of the battery body.
    For rectangle batteries, this is the larger of the body width or length.
 
-BatteryLib_Diameter(battery_name)
+BatteryLib_TotalDiameter(battery_name)
    Synonym for BatteryLib_BodyDiameter().  Not sure why.
 
 BatteryLib_BodyWidth(battery_name)
@@ -53,12 +48,16 @@ BatteryLib_BodyWidth(battery_name)
    For tube and button batteries, this is the body diameter.
 
 BatteryLib_TotalWidth(battery_name)
-   Synonym for BatteryLib_BodyWidth().
+   Returns the total outside width of the battery.
+   This is currently a synonym for BatteryLib_BodyWidth().
 
 BatteryLib_BodyLength(battery_name)
    Returns the length of the battery body.
    For rectangle batteries, this is the length of the battery body.
    For tube and button batteries, this is the body diameter.
+   
+BatteryLib_TotalLength(battery_name)
+    Returnes the total length of the battery body
 
 BatteryLib_BodyHeight(battery_name)
    Returns the height of the battery body.
@@ -90,10 +89,15 @@ BatteryLib_Envelope(battery_name)
 
 -------------------------------------------------------------------------------
 VARIABLES
-The names of the batteries supported by this library can be found by accessing the following variables
-These can easily be displayed using echo() and str()
-for example:
-   echo(str("All supported battery names: ", BatteryLib_Valid_Battery_Names));
+
+The current library version can be retrieved, as a string, with the following variable:
+
+BatteryLib_Version
+
+
+
+The names of the batteries supported by this library can be retrieved by accessing 
+the following variables
 
 BatteryLib_Valid_Battery_Names - All valid battery names
 
@@ -103,3 +107,6 @@ BatteryLib_Valid_Rectangle_Battery_Names - All valid rectangle battery names
 
 BatteryLib_Valid_Tube_Battery_Names - All valid tube battery names
 
+These can easily be displayed using echo() and str()
+for example:
+   echo(str("All supported battery names: ", BatteryLib_Valid_Battery_Names));
