@@ -1,4 +1,4 @@
-Battery Library for OpenSCAD
+This is a battery Library for OpenSCAD
 
 This library is designed to make it easier to create designs incorporating 
 common batteries.
