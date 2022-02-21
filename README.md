@@ -1,5 +1,4 @@
 Battery Library for OpenSCAD
-Created by Brad Kartchner (kartchnb@gmail.com)
 
 This library is designed to make it easier to create designs incorporating 
 common batteries.
