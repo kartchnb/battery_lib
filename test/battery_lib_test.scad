@@ -1,9 +1,6 @@
 /* [General Parameters] */
-// The names of the battery to generate
-Battery_Names = ["AA", "9V", "CR2032"];
-
 // Display all supported battery names?
-Display_Battery_Names = false;
+Display_Battery_Names = true;
 
 
 
@@ -16,43 +13,27 @@ Render_Quality_Value = 128;
 
 
 
-include<battery_lib/battery_lib.scad>
+include<../battery_lib.scad>
 
 
 
 module Generate(index=0)
 {
     battery_name = Battery_Names[index];
-    
-    echo();
-    echo();
-    echo();
-    echo("-----------------------------------------");
-    echo(str("Parameters for a '", battery_name, "' battery:"));
 
     supported = BatteryLib_BatteryNameIsValid(battery_name);
-    echo(supported=supported);
     if (supported)
     {
-        echo(str("Battery Type: ", BatteryLib_Type(battery_name)));
-        echo(str("Body Diameter: ", BatteryLib_BodyDiameter(battery_name)));
-        echo(str("Total Diameter: ", BatteryLib_TotalDiameter(battery_name)));
-        echo(str("Body Width: ", BatteryLib_BodyWidth(battery_name)));
-        echo(str("Total Width: ", BatteryLib_TotalWidth(battery_name)));
-        echo(str("Body Length: ", BatteryLib_BodyLength(battery_name)));
-        echo(str("Total Length: ", BatteryLib_TotalLength(battery_name)));
-        echo(str("Body Height: ", BatteryLib_BodyHeight(battery_name)));
-        echo(str("Total Height: ", BatteryLib_TotalHeight(battery_name)));
-        echo(str("Cathode Diameter: ", BatteryLib_CathodeDiameter(battery_name)));
-        echo(str("Cathode Height: ", BatteryLib_CathodeHeight(battery_name)));
-        echo(str("Anode Diameter: ", BatteryLib_AnodeDiameter(battery_name)));
-        echo(str("Anode Height: ", BatteryLib_AnodeHeight(battery_name)));
-        echo(str("Terminal Distance: ", BatteryLib_TerminalDistance(battery_name)));
-        echo(str("Envelope: ", BatteryLib_Envelope(battery_name)));
-
         x_offset = BatteryLib_TotalWidth(battery_name)/2;
         translate([x_offset, 0, 0])
             BatteryLib_GenerateBatteryModel(battery_name);
+
+        if (Display_Battery_Names)
+        {
+            translate([x_offset, -BatteryLib_BodyLength(battery_name)/2])
+            rotate([0, 0, 90])
+            text(battery_name, valign="center", halign="right");
+        }
     }
     
     else
@@ -73,6 +54,8 @@ module Generate(index=0)
 // Global parameters
 iota = 0.001;
 $fn = $preview ? Preview_Quality_Value : Render_Quality_Value;
+
+Battery_Names = BatteryLib_Valid_Battery_Names;
 
 
 
